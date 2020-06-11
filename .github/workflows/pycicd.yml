@@ -26,8 +26,9 @@ jobs:
           export PYTHONPATH=src
           pytest
       - name: create docker image
+        if: github.ref == 'refs/heads/master' && job.status == 'success'
         run: |
-          docker build . -f Dockerfile -t adamcao/ciciflaskapp:1.0
+          docker build . -f Dockerfile -t adamcao/ciciflaskapp:3.0
       - name: login to docker
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -36,4 +37,4 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PWD
       - name: push to docker hub
         run: |
-          docker push adamcao/ciciflaskapp:1.0
+          docker push adamcao/ciciflaskapp:3.0
